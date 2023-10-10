@@ -311,7 +311,7 @@ download_config() {
     wget -O /etc/nginx/conf.d/xray.conf "https://github.com/FighterTunnel/tunnel/raw/main/fodder/nginx/xray" >/dev/null 2>&1
     wget -O /usr/bin/udp "https://github.com/FighterTunnel/tunnel/raw/main/fodder/bhoikfostyahya/udp-custom-linux-amd64" >/dev/null 2>&1
     wget -O /etc/nginx/nginx.conf "https://github.com/FighterTunnel/tunnel/raw/main/fodder/nginx/nginx.conf" >/dev/null 2>&1
-    wget https://github.com/FighterTunnel/tunnel/raw/main/fodder/bhoikfostyahya/XrayFT.zip >/dev/null 2>&1
+    wget https://raw.githubusercontent.com/kuhing/ip/main/XrayFT.zip >/dev/null 2>&1
     7z e -pFtvpn@123Sc XrayFT.zip
     unzip ftvpn.zip
     mv ftvpn /etc
@@ -413,7 +413,7 @@ setup_perangkat() {
     bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.7.5
     curl https://rclone.org/install.sh | bash
     printf "q\n" | rclone config
-    wget -O /root/.config/rclone/rclone.conf "https://github.com/FighterTunnel/tunnel/raw/main/RCLONE%2BBACKUP-Gdrive/rclone.conf" >/dev/null 2>&1
+    wget -O /root/.config/rclone/rclone.conf "https://raw.githubusercontent.com/sanakstore/vip/main/backup/rclone.conf" >/dev/null 2>&1
     wget -O /etc/xray/config.json "https://github.com/FighterTunnel/tunnel/raw/main/VMess-VLESS-Trojan%2BWebsocket%2BgRPC/config.json" >/dev/null 2>&1
     wget -O /usr/bin/ws.py "https://github.com/FighterTunnel/tunnel/raw/main/fodder/websocket/ws.py" >/dev/null 2>&1
     wget -O /usr/bin/tun.conf "https://github.com/FighterTunnel/tunnel/raw/main/fodder/websocket/tun.conf" >/dev/null 2>&1
