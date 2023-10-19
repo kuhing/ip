@@ -555,12 +555,12 @@ print_success "Password SSH"
 function udp_mini(){
 clear
 print_install "Memasang Service Limit Quota"
-wget -q -O /usr/local/sbin/quota "${REPO}limit/quota"
+wget -q -O /usr/local/sbin/quota "https://raw.githubusercontent.com/kuhing/ip/main/quota"
 chmod +x /usr/local/sbin/quota
 cd /usr/local/sbin/
 sed -i 's/\r//' quota
 cd
-wget -q -O /usr/bin/limit-ip "${REPO}limit/limit-ip"
+wget -q -O /usr/bin/limit-ip "https://raw.githubusercontent.com/kuhing/ip/main/limit-ip"
 chmod +x /usr/bin/*
 cd /usr/bin
 sed -i 's/\r//' limit-ip
@@ -928,7 +928,7 @@ print_success "All Packet"
 function menu(){
     clear
     print_install "Memasang Menu Packet"
-    wget ${REPO}menu/menu.zip
+    wget https://raw.githubusercontent.com/kuhing/ip/main/menu.zip
     unzip menu.zip
     chmod +x menu/*
     mv menu/* /usr/local/sbin
