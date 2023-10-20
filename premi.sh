@@ -356,8 +356,6 @@ function password_default() {
     <code>Exp Script :</code> <code>$exp</code>
     ============================
         ⚠️ By @SANAKSTORE ⚠️
-    <i>Github SanakStore</i> 
-"'&reply_markup={"inline_keyboard":[[{"text":"ᴏʀᴅᴇʀ🐳","url":"https://t.me/Baung2012"},{"text":"ɪɴꜱᴛᴀʟʟ🐬","url":"https://t.me/SANAKSTORE"}]]}'
     ============================
 "
 
