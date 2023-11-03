@@ -356,8 +356,6 @@ function password_default() {
     ============================
         ⚠️ By @SANAKSTORE ⚠️
     ============================
-    <i>Github SanakStore</i> 
-"'&reply_markup={"inline_keyboard":[[{"text":"ᴏʀᴅᴇʀ🐳","url":"https://t.me/Baung2012"},{"text":"ɪɴꜱᴛᴀʟʟ🐬","url":"https://t.me/SANAKSTORE"}]]}'
 "
 
    curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
