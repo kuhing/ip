@@ -550,8 +550,8 @@ EOF
 }
 
 restart_system() {
-    USRSC=$(wget -qO- https://sc-xray.yha.my.id/ip | grep $ipsaya | awk '{print $2}')
-    EXPSC=$(wget -qO- https://sc-xray.yha.my.id/ip | grep $ipsaya | awk '{print $3}')
+    USRSC=$(wget -qO- https://raw.githubusercontent.com/kuhing/ip/main/vps | grep $ipsaya | awk '{print $2}')
+    EXPSC=$(wget -qO- https://raw.githubusercontent.com/kuhing/ip/main/vps | grep $ipsaya | awk '{print $3}')
     TIMEZONE=$(printf '%(%H:%M:%S)T')
     TEXT="
 <code>────────────────────</code>
