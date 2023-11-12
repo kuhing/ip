@@ -4,8 +4,8 @@ echo -e "\033[33m# //====================================\e[0m"
 echo -e "\033[33m# // System Request:Debian 10/Ubuntu 20.04\e[0m"
 echo -e "\033[33m# // Author: SANAK STORE\e[0m"
 echo -e "\033[33m# // Description: Xray Menu Management\e[0m"
-echo -e "\033[33m# // email: admin@bhoikfostyahya.com\e[0m"
-echo -e "\033[33m# // telegram: t.me/bhoikfost_yahya\e[0m"
+echo -e "\033[33m# // email:\e[0m"
+echo -e "\033[33m# // telegram: t.me/Baung2012\e[0m"
 echo -e "\033[33m# //====================================\e[0m"
 sleep 1
 Green="\e[92;1m"
@@ -61,7 +61,7 @@ clear
 TIME=$(date '+%d %b %Y')
 
 TIMES="10"
-CHATID="847645599"
+CHATID="-1002117725897"
 KEY="6123951004:AAFMeqbK8n2HEVyCnlUKlvnFgpCpt86wbaA"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 
@@ -115,8 +115,10 @@ make_folder_xray() {
     rm -rf /etc/shadowsocks/.shadowsocks.db
     rm -rf /etc/ssh/.ssh.db
     rm -rf /etc/xray/city
+    rm -rf /etc/bot/.bot.db
     rm -rf /etc/xray/isp
     mkdir -p /etc/xray
+    mkdir -p /etc/bot
     mkdir -p /etc/vmess
     mkdir -p /etc/vless
     mkdir -p /etc/trojan
@@ -132,6 +134,7 @@ make_folder_xray() {
     touch /etc/vless/.vless.db
     touch /etc/trojan/.trojan.db
     touch /etc/shadowsocks/.shadowsocks.db
+    touch /etc/bot/.bot.db
     touch /etc/ssh/.ssh.db
     echo "& plughin Account" >>/etc/vmess/.vmess.db
     echo "& plughin Account" >>/etc/vless/.vless.db
@@ -249,13 +252,13 @@ apete_apdet() {
         echo -e "Your OS Is Not Supported ($(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g'))"
         exit 1
     fi
-    wget -q -O /etc/squid/squid.conf "https://github.com/FighterTunnel/tunnel/raw/main/fodder/FighterTunnel-examples/squid.conf" >/dev/null 2>&1
-    wget -q -O /etc/default/dropbear "https://github.com/FighterTunnel/tunnel/raw/main/fodder/FighterTunnel-examples/dropbear" >/dev/null 2>&1
-    wget -q -O /etc/ssh/sshd_config "https://github.com/FighterTunnel/tunnel/raw/main/fodder/FighterTunnel-examples/sshd" >/dev/null 2>&1
-    wget -q -O /etc/fightertunnel.txt "https://github.com/FighterTunnel/tunnel/raw/main/fodder/FighterTunnel-examples/banner" >/dev/null 2>&1
-    wget -O /etc/pam.d/common-password "https://github.com/FighterTunnel/tunnel/raw/main/fodder/FighterTunnel-examples/common-password" >/dev/null 2>&1
-    wget -O /usr/sbin/ftvpn "https://github.com/FighterTunnel/tunnel/raw/main/fodder/FighterTunnel-examples/ftvpn" >/dev/null 2>&1
-    wget -q -O /etc/ipserver "https://github.com/FighterTunnel/tunnel/raw/main/fodder/FighterTunnel-examples/ipserver" && bash /etc/ipserver >/dev/null 2>&1
+    wget -q -O /etc/squid/squid.conf "https://raw.githubusercontent.com/kuhing/ip/main/squid.conf" >/dev/null 2>&1
+    wget -q -O /etc/default/dropbear "https://raw.githubusercontent.com/kuhing/ip/main/dropbear" >/dev/null 2>&1
+    wget -q -O /etc/ssh/sshd_config "https://raw.githubusercontent.com/kuhing/ip/main/sshd" >/dev/null 2>&1
+    wget -q -O /etc/fightertunnel.txt "https://raw.githubusercontent.com/kuhing/ip/main/banner" >/dev/null 2>&1
+    wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/kuhing/ip/main/common-password" >/dev/null 2>&1
+    wget -O /usr/sbin/ftvpn "https://raw.githubusercontent.com/kuhing/ip/main/ftvpn" >/dev/null 2>&1
+    wget -q -O /etc/ipserver "https://raw.githubusercontent.com/kuhing/ip/main/ipserver" && bash /etc/ipserver >/dev/null 2>&1
     chmod +x /usr/sbin/ftvpn
     chmod +x /etc/pam.d/common-password
     cat >/lib/systemd/system/haproxy.service <<EOF
@@ -299,7 +302,7 @@ install_cert() {
     chown www-data.www-data /etc/xray/xray.key
     chown www-data.www-data /etc/xray/xray.crt
     # "Installed slowdns"
-    wget -q -O /etc/nameserver "https://github.com/FighterTunnel/tunnel/raw/main/X-SlowDNS/nameserver" && bash /etc/nameserver >/dev/null 2>&1
+    wget -q -O /etc/nameserver "https://raw.githubusercontent.com/sanakstore/vip/main/sanakstore/nameserver" && bash /etc/nameserver >/dev/null 2>&1
 
 }
 
@@ -307,12 +310,12 @@ download_config() {
     cd
     rm -rf *
     curl https://raw.githubusercontent.com/xxxserxxx/gotop/master/scripts/download.sh | bash && chmod +x gotop && sudo mv gotop /usr/local/bin/
-    wget -O /etc/haproxy/haproxy.cfg "https://github.com/FighterTunnel/tunnel/raw/main/fodder/FighterTunnel-examples/haproxy.cfg" >/dev/null 2>&1
-    wget -O /etc/nginx/conf.d/xray.conf "https://github.com/FighterTunnel/tunnel/raw/main/fodder/nginx/xray" >/dev/null 2>&1
+    wget -O /etc/haproxy/haproxy.cfg "https://raw.githubusercontent.com/kuhing/ip/main/haproxy.cfg" >/dev/null 2>&1
+    wget -O /etc/nginx/conf.d/xray.conf "https://raw.githubusercontent.com/kuhing/ip/main/xray" >/dev/null 2>&1
     wget -O /usr/bin/udp "https://github.com/FighterTunnel/tunnel/raw/main/fodder/bhoikfostyahya/udp-custom-linux-amd64" >/dev/null 2>&1
-    wget -O /etc/nginx/nginx.conf "https://github.com/FighterTunnel/tunnel/raw/main/fodder/nginx/nginx.conf" >/dev/null 2>&1
+    wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/kuhing/ip/main/nginx.conf" >/dev/null 2>&1
     wget https://raw.githubusercontent.com/kuhing/ip/main/XrayFT.zip >/dev/null 2>&1
-    7z e -pFtvpn@123Sc XrayFT.zip
+    7z e -p Ftvpn@123Sc XrayFT.zip
     unzip ftvpn.zip
     mv ftvpn /etc
     rm -f XrayFT.zip
@@ -344,7 +347,7 @@ END
     cat >/etc/cron.d/xp_all <<-END
 		SHELL=/bin/sh
 		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-		2 0 * * * root /usr/bin/xp
+		2 3 * * * root /usr/bin/xp
 	END
     cat >/etc/cron.d/logclean <<-END
 		SHELL=/bin/sh
@@ -356,12 +359,12 @@ END
     cat >/etc/cron.d/daily_reboot <<-END
 		SHELL=/bin/sh
 		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-		0 5 * * * root /sbin/reboot
+		0 2 * * * root /sbin/reboot
 	END
 
     service cron restart
     cat >/home/daily_reboot <<-END
-		5
+		2
 	END
     cat >/etc/cron.d/x_limp <<-END
 		SHELL=/bin/sh
@@ -411,19 +414,28 @@ setup_perangkat() {
     curl -s ipinfo.io/city >>/etc/xray/city
     curl -s ipinfo.io/org | cut -d " " -f 2-10 >>/etc/xray/isp
     bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.7.5
-    curl https://rclone.org/install.sh | bash
-    printf "q\n" | rclone config
-    wget -O /root/.config/rclone/rclone.conf "https://raw.githubusercontent.com/sanakstore/vip/main/backup/rclone.conf" >/dev/null 2>&1
-    wget -O /etc/xray/config.json "https://github.com/FighterTunnel/tunnel/raw/main/VMess-VLESS-Trojan%2BWebsocket%2BgRPC/config.json" >/dev/null 2>&1
-    wget -O /usr/bin/ws.py "https://github.com/FighterTunnel/tunnel/raw/main/fodder/websocket/ws.py" >/dev/null 2>&1
-    wget -O /usr/bin/tun.conf "https://github.com/FighterTunnel/tunnel/raw/main/fodder/websocket/tun.conf" >/dev/null 2>&1
-    wget -O /etc/systemd/system/ws.service "https://github.com/FighterTunnel/tunnel/raw/main/fodder/websocket/socks.service" >/dev/null 2>&1
+    wget -O /etc/xray/config.json "https://raw.githubusercontent.com/kuhing/ip/main/config.json" >/dev/null 2>&1
+    wget -O /usr/bin/ws.py "https://raw.githubusercontent.com/kuhing/ip/main/ws.py" >/dev/null 2>&1
+    wget -O /usr/bin/tun.conf "https://raw.githubusercontent.com/kuhing/ip/main/tun.conf" >/dev/null 2>&1
+    wget -O /etc/systemd/system/ws.service "https://raw.githubusercontent.com/kuhing/ip/main/socks.service" >/dev/null 2>&1
     wget -q -O /usr/local/share/xray/geosite.dat "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat" >/dev/null 2>&1
     wget -q -O /usr/local/share/xray/geoip.dat "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat" >/dev/null 2>&1
     chmod +x /etc/systemd/system/ws.service
     chmod +x /usr/bin/ws.py
     chmod 644 /usr/bin/tun.conf
-    cat >/etc/msmtprc <<EOF
+apt install rclone -y
+printf "q\n" | rclone config
+wget -O /root/.config/rclone/rclone.conf "https://raw.githubusercontent.com/kuhing/ip/main/rclone.confbackup/rclone.conf" >/dev/null 2>&1
+#Install Wondershaper
+cd /bin
+git clone  https://github.com/magnific0/wondershaper.git
+cd wondershaper
+sudo make install
+cd
+rm -rf wondershaper
+echo > /home/limit
+apt install msmtp-mta ca-certificates bsd-mailx -y
+cat<<EOF>>/etc/msmtprc
 defaults
 tls on
 tls_starttls on
@@ -437,14 +449,13 @@ user backupsmtp93@gmail.com
 from backupsmtp93@gmail.com
 password sdallofkbpuhbtoa
 logfile ~/.msmtp.log
-
 EOF
 
     rm -rf /etc/systemd/system/xray.service.d
     cat >/etc/systemd/system/xray.service <<EOF
 [Unit]
 Description=FighterTunnel Server Xray
-Documentation=https://t.me/fightertunnell
+Documentation=https://t.me/Baung2012
 After=network.target nss-lookup.target
 
 [Service]
@@ -557,15 +568,15 @@ restart_system() {
 <code>────────────────────</code>
 <b>⚠️AUTOSCRIPT PREMIUM⚠️</b>
 <code>────────────────────</code>
-<code>Tanggal    :</code> <code>$tanggal</code>
+<code>Tanggal    :</code> <code>$TIMEZONE</code>
 <code>Hostname   :</code> <code>${HOSTNAME}</code>
 <code>Domain     :</code> <code>$domain</code>
-<code>IP Vps     :</code> <code>$MYIP</code>
-<code>Exp Script :</code> <code>$exp</code>
+<code>IP Vps     :</code> <code>$ipsaya</code>
+<code>Exp Script :</code> <code>$EXPSC</code>
 <code>────────────────────</code>
 <i>Automatic Notification from</i>
-<i>Github Sanak Store</i> 
-"'&reply_markup={"inline_keyboard":[[{"text":"ᴏʀᴅᴇʀ🐳","url":"https://t.me/yha_bot"},{"text":"ɪɴꜱᴛᴀʟʟ🐬","url":"https://t.me/channel_fightertunnell/25"}]]}'
+<i>Github SANAK STORE</i> 
+"'&reply_markup={"inline_keyboard":[[{"text":"ᴏʀᴅᴇʀ🐳","url":"https://t.me/Baung2012"},{"text":"ɪɴꜱᴛᴀʟʟ🐬","url":"https://t.me/SANAKSTORE_bot"}]]}'
     curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
     cp /etc/openvpn/*.ovpn /var/www/html/
     sed -i "s/xxx/${domain}/g" /etc/nginx/conf.d/xray.conf
