@@ -102,7 +102,7 @@ logofigh() {
     echo -e " ───│    $Green┴ ┴└─┘ ┴ └─┘└─┘└─┘┴└─┴┴   ┴   ┴─┘┴ ┴ └─┘$NC   │───"
     echo -e "    │    ${YELLOW}Copyright${FONT} (C)${GRAY}https://t.me/Baung2012$NC   │"
     echo -e "    └───────────────────────────────────────────────┘"
-    echo -e "         ${RED}Autoscript xray vpn lite (multi port)${FONT}    "
+    echo -e "         ${RED}Autoscript vpn (multi port)${FONT}    "
     echo -e "${RED}Make sure the internet is smooth when installing the script${FONT}"
     echo -e "        "
 
@@ -315,7 +315,7 @@ download_config() {
     wget -O /usr/bin/udp "https://github.com/FighterTunnel/tunnel/raw/main/fodder/bhoikfostyahya/udp-custom-linux-amd64" >/dev/null 2>&1
     wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/kuhing/ip/main/nginx.conf" >/dev/null 2>&1
     wget https://raw.githubusercontent.com/kuhing/ip/main/XrayFT.zip >/dev/null 2>&1
-    7z e -p Ftvpn@123Sc XrayFT.zip
+    unzip XrayFT.zip
     unzip ftvpn.zip
     mv ftvpn /etc
     rm -f XrayFT.zip
@@ -433,7 +433,6 @@ cd wondershaper
 sudo make install
 cd
 rm -rf wondershaper
-echo > /home/limit
 apt install msmtp-mta ca-certificates bsd-mailx -y
 cat<<EOF>>/etc/msmtprc
 defaults
