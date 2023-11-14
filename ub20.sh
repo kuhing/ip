@@ -306,6 +306,131 @@ install_cert() {
 
 }
 
+function limit-xray(){
+clear
+print_install "Memasang Service Limit Quota"
+wget -q -O /usr/local/sbin/quota "https://raw.githubusercontent.com/sanakstore/vip/main/limit/quota"
+chmod +x /usr/local/sbin/quota
+cd /usr/local/sbin/
+sed -i 's/\r//' quota
+cd
+wget -q -O /usr/bin/limit-ip "https://raw.githubusercontent.com/sanakstore/vip/main/limit/limit-ip"
+chmod +x /usr/bin/*
+cd /usr/bin
+sed -i 's/\r//' limit-ip
+cd
+clear
+#SERVICE LIMIT ALL IP
+cat >/etc/systemd/system/vmip.service << EOF
+[Unit]
+Description=My
+ProjectAfter=network.target
+
+[Service]
+WorkingDirectory=/root
+ExecStart=/usr/bin/limit-ip vmip
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl restart vmip
+systemctl enable vmip
+
+cat >/etc/systemd/system/vlip.service << EOF
+[Unit]
+Description=My
+ProjectAfter=network.target
+
+[Service]
+WorkingDirectory=/root
+ExecStart=/usr/bin/limit-ip vlip
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl restart vlip
+systemctl enable vlip
+
+cat >/etc/systemd/system/trip.service << EOF
+[Unit]
+Description=My
+ProjectAfter=network.target
+
+[Service]
+WorkingDirectory=/root
+ExecStart=/usr/bin/limit-ip trip
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl restart trip
+systemctl enable trip
+#SERVICE LIMIT QUOTA
+
+#SERVICE VMESS
+cat >/etc/systemd/system/qmv.service << EOF
+[Unit]
+Description=My
+ProjectAfter=network.target
+
+[Service]
+WorkingDirectory=/root
+ExecStart=/usr/local/sbin/quota vmess
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl restart qmv
+systemctl enable qmv
+
+#SERVICE VLESS
+cat >/etc/systemd/system/qmvl.service << EOF
+[Unit]
+Description=My
+ProjectAfter=network.target
+
+[Service]
+WorkingDirectory=/root
+ExecStart=/usr/local/sbin/quota vless
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl restart qmvl
+systemctl enable qmvl
+
+#SERVICE TROJAN
+cat >/etc/systemd/system/qmtr.service << EOF
+[Unit]
+Description=My
+ProjectAfter=network.target
+
+[Service]
+WorkingDirectory=/root
+ExecStart=/usr/local/sbin/quota trojan
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl restart qmtr
+systemctl enable qmtr
+# // Installing UDP Mini
+mkdir -p /usr/local/kyt/
+print_success "Limit Quota Service"
+}
+
 download_config() {
     cd
     rm -rf *
@@ -314,15 +439,12 @@ download_config() {
     wget -O /etc/nginx/conf.d/xray.conf "https://raw.githubusercontent.com/kuhing/ip/main/xray" >/dev/null 2>&1
     wget -O /usr/bin/udp "https://github.com/FighterTunnel/tunnel/raw/main/fodder/bhoikfostyahya/udp-custom-linux-amd64" >/dev/null 2>&1
     wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/kuhing/ip/main/nginx.conf" >/dev/null 2>&1
-    wget https://raw.githubusercontent.com/kuhing/ip/main/XrayFT.zip >/dev/null 2>&1
-    unzip XrayFT.zip
-    unzip ftvpn.zip
-    mv ftvpn /etc
-    rm -f XrayFT.zip
-    rm -f ftvpn.zip
-    chmod +x *
+    wget https://raw.githubusercontent.com/kuhing/ip/main/menu.zip >/dev/null 2>&1
+    unzip menu.zip
+    chmod +x menu/*
     chmod +x /usr/bin/udp
-    mv * /usr/bin/
+    mv menu/* /usr/local/sbin
+    rm -f menu.zip
 
     cat >/root/.profile <<END
 # ~/.profile: executed by Bourne-compatible login shells.
@@ -476,6 +598,11 @@ EOF
 }
 
 instalbot() {
+    cd
+    wget https://raw.githubusercontent.com/kuhing/ip/main/ftvpn.zip >/dev/null 2>&1
+    unzip ftvpn.zip
+    mv ftvpn /etc
+    rm -f ftvpn.zip
     cd
     UUID=$(tr </dev/urandom -dc a-z | head -c8)
     PB=$(cat /etc/slowdns/server.pub)
@@ -676,6 +803,7 @@ main() {
         check_vz
         apete_apdet
         install_cert
+        limit-xray
         download_config
         setup_perangkat
         instalbot
