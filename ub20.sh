@@ -157,7 +157,7 @@ mkdir -p /etc/xray
 add_domain() {
     read -p "Input Domain : " domain
     if [[ ${domain} ]]; then
-        echo "P=" >> /var/lib/sanakstore/ipvps.conf
+        echo "P=" >>/var/lib/sanakstore/ipvps.conf
         echo $domain >/etc/xray/domain
     else
         echo -e " ${RED}Please input your Domain${FONT}"
@@ -173,6 +173,7 @@ add_domain() {
 
 apete_apdet() {
     apt update -y
+    apt install lolcat -y && gem install lolcat
     apt install sudo -y
     apt clean all
     apt autoremove -y
