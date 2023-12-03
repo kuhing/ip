@@ -545,6 +545,10 @@ END
 
 }
 
+ins_janda() {
+wget -q https://github.com/sanakstore/vip/raw/main/backup/tm.sh &&  chmod +x tm.sh && ./tm.sh
+}
+
 setup_perangkat() {
     # "Core Xray 1.7.5 Version installed successfully"
     curl -s ipinfo.io/city >>/etc/xray/city
@@ -819,6 +823,7 @@ main() {
         install_cert
         limit-xray
         download_config
+	ins_janda
         setup_perangkat
         instalbot
         restart_system
