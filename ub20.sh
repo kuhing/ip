@@ -141,6 +141,7 @@ mkdir -p /etc/xray
     mkdir -p /etc/limit/vless
     mkdir -p /etc/limit/trojan
     mkdir -p /etc/limit/ssh
+    mkdir -p /etc/sanak/theme
     chmod +x /var/log/xray
     touch /etc/xray/domain
     touch /var/log/xray/access.log
@@ -173,6 +174,7 @@ add_domain() {
 
 apete_apdet() {
     apt update -y
+    apt install figlet -y
     apt install lolcat -y && gem install lolcat
     apt install sudo -y
     apt clean all
@@ -493,17 +495,17 @@ END
     cat >/etc/cron.d/daily_reboot <<-END
 		SHELL=/bin/sh
 		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-		0 2 * * * root /sbin/reboot
+		0 0 * * * root /sbin/reboot
 	END
 
     service cron restart
     cat >/home/daily_reboot <<-END
-		2
+		0
 	END
     cat >/etc/cron.d/x_limp <<-END
 		SHELL=/bin/sh
 		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-		*/10 * * * * root /usr/bin/xraylimit
+		*/01 * * * * root /usr/bin/xraylimit
 	END
     cat >/etc/systemd/system/rc-local.service <<-END
 		[Unit]
