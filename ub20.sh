@@ -22,41 +22,55 @@ green='\e[0;32m'
 
 ipsaya=$(wget -qO- ipinfo.io/ip)
 CITY=$(wget -qO- ipinfo.io/city)
-# USERNAME
-rm -f /usr/bin/user
-username=$(curl https://raw.githubusercontent.com/kuhing/ip/main/vps | grep $MYIP | awk '{print $2}')
-echo "$username" >/usr/bin/user
-expx=$(curl https://raw.githubusercontent.com/kuhing/ip/main/vps | grep $MYIP | awk '{print $3}')
-echo "$expx" >/usr/bin/e
-# DETAIL ORDER
-username=$(cat /usr/bin/user)
-oid=$(cat /usr/bin/ver)
-exp=$(cat /usr/bin/e)
-clear
-# CERTIFICATE STATUS
-d1=$(date -d "$valid" +%s)
-d2=$(date -d "$today" +%s)
-certifacate=$(((d1 - d2) / 86400))
-# VPS Information
-DATE=$(date +'%Y-%m-%d')
-datediff() {
-    d1=$(date -d "$1" +%s)
-    d2=$(date -d "$2" +%s)
-    echo -e "$COLOR1 $NC Expiry In   : $(( (d1 - d2) / 86400 )) Days"
+trial() {
+user=Trial-`</dev/urandom tr -dc X-Z0-9 | head -c4`
+sayang=$(date -d "1 days" +"%Y-%m-%d")
+ipsaya=$(wget -qO- ipinfo.io/ip)
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+echo "### ${user} ${sayang} ${ipsaya} " >> /etc/trial
+sleep 1
+useexp=$(grep -w "^### $user" "/etc/trial" | cut -d ' ' -f 3 | sort | uniq)
+  if [[ $date_list < $useexp ]]; then
+    echo -ne
+  else
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    echo -e "\033[42m          SANAK STORE AUTOSCRIPT          \033[0m"
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    echo -e ""
+    echo -e "            ${RED}PERMISSION DENIED !${NC}"
+    echo -e "   \033[0;33mYour VPS${NC} $ipsaya \033[0;33mHas been Banned${NC}"
+    echo -e "     \033[0;33mBuy access permissions for scripts${NC}"
+    echo -e "             \033[0;33mContact Admin :${NC}"
+    echo -e "      \033[0;36mTelegram${NC} t.me/Baung2012"
+    echo -e "      ${GREEN}WhatsApp${NC} wa.me/6285754292950"
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    exit
+  fi
 }
-mai="datediff "$Exp" "$DATE""
-
-# Status ExpiRED Active | SANAK STORE Project
-Info="(${green}Active${NC})"
-Error="(${RED}ExpiRED${NC})"
-today=`date -d "0 days" +"%Y-%m-%d"`
-Exp1=$(curl https://raw.githubusercontent.com/kuhing/ip/main/vps | grep $MYIP | awk '{print $4}')
-if [[ $today < $Exp1 ]]; then
-sts="${Info}"
-else
-sts="${Error}"
-fi
-echo -e "\e[32mloading...\e[0m"
+checking_sc() {
+ipsaya=$(wget -qO- ipinfo.io/ip)
+data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
+date_list=$(date +"%Y-%m-%d" -d "$data_server")
+data_ip="https://raw.githubusercontent.com/kuhing/ip/main/vps"
+  useexp=$(wget -qO- $data_ip | grep $ipsaya | awk '{print $3}')
+  if [[ $date_list < $useexp ]]; then
+    echo -ne
+  else
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    echo -e "\033[42m          SANAK STORE AUTOSCRIPT          \033[0m"
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    echo -e ""
+    echo -e "            ${RED}PERMISSION DENIED !${NC}"
+    echo -e "   \033[0;33mYour VPS${NC} $ipsaya \033[0;33mHas been Banned${NC}"
+    echo -e "     \033[0;33mBuy access permissions for scripts${NC}"
+    echo -e "             \033[0;33mContact Admin :${NC}"
+    echo -e "      \033[0;36mTelegram${NC} t.me/Baung2012"
+    echo -e "      ${GREEN}WhatsApp${NC} wa.me/6285754292950"
+    echo -e "\033[1;93m────────────────────────────────────────────\033[0m"
+    exit
+  fi
+}
 clear
 TIME=$(date '+%d %b %Y')
 
@@ -97,9 +111,9 @@ logofigh() {
     echo -e ""
     echo -e "    ┌───────────────────────────────────────────────┐"
     echo -e " ───│                                               │───"
-    echo -e " ───│    $Green┌─┐┬ ┬┌┬┐┌─┐┌─┐┌─┐┬─┐┬┌─┐┌┬┐  ┬  ┬┌┬┐┌─┐$NC   │───"
-    echo -e " ───│    $Green├─┤│ │ │ │ │└─┐│  ├┬┘│├─┘ │   │  │ │ ├┤ $NC   │───"
-    echo -e " ───│    $Green┴ ┴└─┘ ┴ └─┘└─┘└─┘┴└─┴┴   ┴   ┴─┘┴ ┴ └─┘$NC   │───"
+    echo -e " ───│    $BLUE┌─┐┬ ┬┌┬┐┌─┐┌─┐┌─┐┬─┐┬┌─┐┌┬┐  ┬  ┬┌┬┐┌─┐$NC   │───"
+    echo -e " ───│    $BLUE├─┤│ │ │ │ │└─┐│  ├┬┘│├─┘ │   │  │ │ ├┤ $NC   │───"
+    echo -e " ───│    $BLUE┴ ┴└─┘ ┴ └─┘└─┘└─┘┴└─┴┴   ┴   ┴─┘┴ ┴ └─┘$NC   │───"
     echo -e "    │    ${YELLOW}Copyright${FONT} (C)${GRAY}https://t.me/Baung2012$NC   │"
     echo -e "    └───────────────────────────────────────────────┘"
     echo -e "         ${RED}Autoscript vpn (multi port)${FONT}    "
@@ -146,11 +160,11 @@ mkdir -p /etc/xray
     touch /etc/xray/domain
     touch /var/log/xray/access.log
     touch /var/log/xray/error.log
-    mkdir /etc/vmess/.vmess.db
-    mkdir /etc/vless/.vless.db
-    mkdir /etc/trojan/.trojan.db
+    touch /etc/vmess/.vmess.db
+    touch /etc/vless/.vless.db
+    touch /etc/trojan/.trojan.db
     touch /etc/shadowsocks/.shadowsocks.db
-    mkdir /etc/ssh/.ssh.db
+    touch /etc/ssh/.ssh.db
     touch /etc/bot/.bot.db
 
 }
@@ -269,20 +283,20 @@ apete_apdet() {
     wget -q -O /etc/squid/squid.conf "https://raw.githubusercontent.com/kuhing/ip/main/squid.conf" >/dev/null 2>&1
     wget -q -O /etc/default/dropbear "https://raw.githubusercontent.com/kuhing/ip/main/dropbear" >/dev/null 2>&1
     wget -q -O /etc/ssh/sshd_config "https://raw.githubusercontent.com/kuhing/ip/main/sshd" >/dev/null 2>&1
-    wget -q -O /etc/fightertunnel.txt "https://raw.githubusercontent.com/kuhing/ip/main/banner" >/dev/null 2>&1
+    wget -q -O /etc/sanakstore.txt "https://github.com/sanakstore/vip/raw/main/backup/banner" >/dev/null 2>&1
     wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/kuhing/ip/main/common-password" >/dev/null 2>&1
-    wget -O /usr/sbin/ftvpn "https://raw.githubusercontent.com/kuhing/ip/main/ftvpn" >/dev/null 2>&1
+    wget -O /usr/sbin/sanakstore "https://github.com/sanakstore/vip/raw/main/backup/sanakstore" >/dev/null 2>&1
     wget -q -O /etc/ipserver "https://raw.githubusercontent.com/kuhing/ip/main/ipserver" && bash /etc/ipserver >/dev/null 2>&1
-    chmod +x /usr/sbin/ftvpn
+    chmod +x /usr/sbin/sanakstore
     chmod +x /etc/pam.d/common-password
     cat >/lib/systemd/system/haproxy.service <<EOF
 [Unit]
-Description=FighterTunnel Load Balancer
-Documentation=https://github.com/FighterTunnel
+Description=SanakStore Load Balancer
+Documentation=https://github.com/Baung2012
 After=network-online.target rsyslog.service
 
 [Service]
-ExecStart=/usr/sbin/ftvpn -Ws -f /etc/haproxy/haproxy.cfg -p 18173 
+ExecStart=/usr/sbin/sanakstore -Ws -f /etc/haproxy/haproxy.cfg -p 18173 
 Restart=on-failure
 RestartPreventExitStatus=23
 LimitNPROC=10000
@@ -441,7 +455,7 @@ systemctl daemon-reload
 systemctl restart qmtr
 systemctl enable qmtr
 # // Installing UDP Mini
-mkdir -p /usr/local/kyt/
+mkdir -p /usr/local/sanakstore/
 print_success "Limit Quota Service"
 }
 
@@ -497,7 +511,11 @@ END
 		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 		0 0 * * * root /sbin/reboot
 	END
-
+    cat >/etc/cron.d/hps_otm <<-END
+		SHELL=/bin/sh
+		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+		*/01 * * * * root /usr/local/sbin/kills
+	END
     service cron restart
     cat >/home/daily_reboot <<-END
 		0
@@ -563,6 +581,29 @@ setup_perangkat() {
     chmod +x /etc/systemd/system/ws.service
     chmod +x /usr/bin/ws.py
     chmod 644 /usr/bin/tun.conf
+    rm -rf /etc/systemd/system/xray.service.d
+    cat >/etc/systemd/system/xray.service <<EOF
+[Unit]
+Description=Sanakstore Server Xray
+Documentation=https://t.me/Baung2012
+After=network.target nss-lookup.target
+
+[Service]
+User=www-data
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+NoNewPrivileges=yes
+ExecStart=/usr/local/bin/xray run -config /etc/xray/config.json
+Restart=on-failure
+RestartPreventExitStatus=23
+LimitNPROC=10000
+LimitNOFILE=1000000
+
+[Install]
+WantedBy=multi-user.target
+
+EOF
+
 apt install rclone -y
 printf "q\n" | rclone config
 wget -O /root/.config/rclone/rclone.conf "https://raw.githubusercontent.com/kuhing/ip/main/rclone.confbackup/rclone.conf" >/dev/null 2>&1
@@ -588,29 +629,6 @@ user backupsmtp93@gmail.com
 from backupsmtp93@gmail.com
 password sdallofkbpuhbtoa
 logfile ~/.msmtp.log
-EOF
-
-    rm -rf /etc/systemd/system/xray.service.d
-    cat >/etc/systemd/system/xray.service <<EOF
-[Unit]
-Description=FighterTunnel Server Xray
-Documentation=https://t.me/Baung2012
-After=network.target nss-lookup.target
-
-[Service]
-User=www-data
-CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-NoNewPrivileges=yes
-ExecStart=/usr/local/bin/xray run -config /etc/xray/config.json
-Restart=on-failure
-RestartPreventExitStatus=23
-LimitNPROC=10000
-LimitNOFILE=1000000
-
-[Install]
-WantedBy=multi-user.target
-
 EOF
 
 }
@@ -704,15 +722,17 @@ EOF
     systemctl restart udp
 }
 
-restart_system() {
+xnxx() {
     USRSC=$(wget -qO- https://raw.githubusercontent.com/kuhing/ip/main/vps | grep $ipsaya | awk '{print $2}')
     EXPSC=$(wget -qO- https://raw.githubusercontent.com/kuhing/ip/main/vps | grep $ipsaya | awk '{print $3}')
+    TIME=`date -d "0 days" +"%d-%m-%Y" `
     TIMEZONE=$(printf '%(%H:%M:%S)T')
     TEXT="
 <code>────────────────────</code>
 <b>⚠️AUTOSCRIPT PREMIUM⚠️</b>
 <code>────────────────────</code>
-<code>Tanggal    :</code> <code>$TIMEZONE</code>
+<code>Date       : </code><code>$TIME</code>
+<code>Time       : </code><code>$TIMEZONE</code>
 <code>Hostname   :</code> <code>${HOSTNAME}</code>
 <code>Domain     :</code> <code>$domain</code>
 <code>IP Vps     :</code> <code>$ipsaya</code>
@@ -722,6 +742,31 @@ restart_system() {
 <i>Github SANAK STORE</i> 
 "'&reply_markup={"inline_keyboard":[[{"text":"ᴏʀᴅᴇʀ🐳","url":"https://t.me/Baung2012"},{"text":"ɪɴꜱᴛᴀʟʟ🐬","url":"https://t.me/SANAKSTORE_bot"}]]}'
     curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+}
+
+ngentot() {
+    USRSC=$(grep -E "^### " "/etc/trial" | cut -d ' ' -f 4)
+    EXPSC==$(grep -E "^### " "/etc/trial" | cut -d ' ' -f 3)
+    TIME=`date -d "0 days" +"%d-%m-%Y" `
+    TIMEZONE=$(printf '%(%H:%M:%S)T')
+    TEXT="
+<code>────────────────────</code>
+<b>⚠️AUTOSCRIPT PREMIUM⚠️</b>
+<code>────────────────────</code>
+<code>Date       : </code><code>$TIME</code>
+<code>Time       : </code><code>$TIMEZONE</code>
+<code>Hostname   :</code> <code>${HOSTNAME}</code>
+<code>Domain     :</code> <code>$domain</code>
+<code>IP Vps     :</code> <code>$ipsaya</code>
+<code>Exp Script :</code> <code>$EXPSC</code>
+<code>────────────────────</code>
+<i>Automatic Notification from</i>
+<i>Github SANAK STORE</i> 
+"'&reply_markup={"inline_keyboard":[[{"text":"ᴏʀᴅᴇʀ🐳","url":"https://t.me/Baung2012"},{"text":"ɪɴꜱᴛᴀʟʟ🐬","url":"https://t.me/SANAKSTORE_bot"}]]}'
+    curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+}
+
+restart_system() {
     cp /etc/openvpn/*.ovpn /var/www/html/
     sed -i "s/xxx/${domain}/g" /etc/nginx/conf.d/xray.conf
     sed -i "s/xxx/${domain}/g" /etc/haproxy/haproxy.cfg
@@ -816,6 +861,7 @@ main() {
     case $menu_num in
     1)
 
+	primium
         make_folder_xray
         add_domain
         check_vz
@@ -826,12 +872,24 @@ main() {
 	ins_janda
         setup_perangkat
         instalbot
+	xnxx
         restart_system
         ;;
     2)
-        echo -e ""
-        echo " Trial mode is Closed"
-        echo -e ""
+
+	trial
+        make_folder_xray
+        add_domain
+        check_vz
+        apete_apdet
+        install_cert
+        limit-xray
+        download_config
+	ins_janda
+        setup_perangkat
+        instalbot
+	ngentot
+        restart_system
         ;;
     *)
         rm -rf ub20.sh
