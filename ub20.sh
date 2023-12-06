@@ -133,11 +133,7 @@ mkdir -p /etc/xray
     rm -rf /etc/ssh/.ssh.db
     rm -rf /etc/bot/.bot.db
     mkdir -p /etc/bot
-    mkdir -p /etc/log/vmess
-    mkdir -p /etc/log/vless
-    mkdir -p /etc/log/trojan
-    mkdir -p /etc/log/ss
-    mkdir -p /etc/log/ssh
+    mkdir -p /etc/log
     mkdir -p /etc/xray
     mkdir -p /etc/vmess
     mkdir -p /etc/vless
@@ -147,14 +143,6 @@ mkdir -p /etc/xray
     mkdir -p /usr/bin/xray/
     mkdir -p /var/log/xray/
     mkdir -p /var/www/html
-    mkdir -p /etc/sanakstore/limit/vmess/ip
-    mkdir -p /etc/sanakstore/limit/vless/ip
-    mkdir -p /etc/sanakstore/limit/trojan/ip
-    mkdir -p /etc/sanakstore/limit/ssh/ip
-    mkdir -p /etc/limit/vmess
-    mkdir -p /etc/limit/vless
-    mkdir -p /etc/limit/trojan
-    mkdir -p /etc/limit/ssh
     mkdir -p /etc/sanak/theme
     chmod +x /var/log/xray
     touch /etc/xray/domain
@@ -337,12 +325,12 @@ install_cert() {
 function limit-xray(){
 clear
 print_install "Memasang Service Limit Quota"
-wget -q -O /usr/local/sbin/quota "https://raw.githubusercontent.com/sanakstore/vip/main/limit/quota"
+wget -q -O /usr/local/sbin/quota "https://raw.githubusercontent.com/sanakstore/vip/main/limit/quota1"
 chmod +x /usr/local/sbin/quota
 cd /usr/local/sbin/
 sed -i 's/\r//' quota
 cd
-wget -q -O /usr/bin/limit-ip "https://raw.githubusercontent.com/sanakstore/vip/main/limit/limit-ip"
+wget -q -O /usr/bin/limit-ip "https://raw.githubusercontent.com/sanakstore/vip/main/limit/limit-ip1"
 chmod +x /usr/bin/*
 cd /usr/bin
 sed -i 's/\r//' limit-ip
@@ -399,8 +387,25 @@ EOF
 systemctl daemon-reload
 systemctl restart trip
 systemctl enable trip
-#SERVICE LIMIT QUOTA
 
+cat >/etc/systemd/system/sship.service << EOF
+[Unit]
+Description=My
+ProjectAfter=network.target
+
+[Service]
+WorkingDirectory=/root
+ExecStart=/usr/bin/limit-ip sship
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl restart sship
+systemctl enable sship
+
+#SERVICE LIMIT QUOTA
 #SERVICE VMESS
 cat >/etc/systemd/system/qmv.service << EOF
 [Unit]
@@ -454,6 +459,24 @@ EOF
 systemctl daemon-reload
 systemctl restart qmtr
 systemctl enable qmtr
+
+#SERVICE SSH
+cat >/etc/systemd/system/qmssh.service << EOF
+[Unit]
+Description=My
+ProjectAfter=network.target
+
+[Service]
+WorkingDirectory=/root
+ExecStart=/usr/local/sbin/quota ssh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl restart qmssh
+systemctl enable qmssh
 # // Installing UDP Mini
 mkdir -p /usr/local/sanakstore/
 print_success "Limit Quota Service"
@@ -467,8 +490,8 @@ download_config() {
     wget -O /etc/nginx/conf.d/xray.conf "https://raw.githubusercontent.com/kuhing/ip/main/xray" >/dev/null 2>&1
     wget -O /usr/bin/udp "https://github.com/FighterTunnel/tunnel/raw/main/fodder/bhoikfostyahya/udp-custom-linux-amd64" >/dev/null 2>&1
     wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/kuhing/ip/main/nginx.conf" >/dev/null 2>&1
-    wget https://raw.githubusercontent.com/kuhing/ip/main/menu.zip >/dev/null 2>&1
-    unzip menu.zip
+    wget https://raw.githubusercontent.com/kuhing/ip/main/menu1.zip >/dev/null 2>&1
+    unzip menu1.zip
     chmod +x menu/*
     chmod +x /usr/bin/udp
     mv menu/* /usr/local/sbin
