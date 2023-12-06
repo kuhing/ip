@@ -1,0 +1,373 @@
+#!/bin/bash
+function send_logssh1(){
+CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
+KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+export TIME="10"
+export URL="https://api.telegram.org/bot$KEY/sendMessage"
+TEXT="
+<code>◇━━━━━━━━━━━━━━◇</code>
+<b>⚠️NOTIF LIMIT QOUTA SSH⚠️</b>
+<b>⚠️USER MULTI LOGIN⚠️</b>
+<code>◇━━━━━━━━━━━━━━◇</code>
+<b>USERNAME          :</b> <code>${username[$i]} </code>
+<b>LIMIT QOUTA       :</b> <code>${total1} GB</code>
+<b>TOTAL USAGE QOUTA :</b> <code>${total} GB</code>
+<code>◇━━━━━━━━━━━━━━◇</code>
+<code>I REMOVE ACCOUNT</code>
+<code>NO MULTI LOGINS!</code>
+"
+curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+}
+function send-vmess1(){
+CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
+KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+export TIME="10"
+export URL="https://api.telegram.org/bot$KEY/sendMessage"
+TEXT="
+<code>────────────────────</code>
+<b>⚠️NOTIF QUOTA HABIS VMESS⚠️</b>
+<code>────────────────────</code>
+<b>USERNAME          :</b> <code>$user</code>
+<b>LIMIT QOUTA       :</b> <code>${total1} GB</code>
+<b>TOTAL USAGE QOUTA :</b> <code>${total} GB</code>
+<code>────────────────────</code>
+"
+curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+}
+function send-vless1(){
+CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
+KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+export TIME="10"
+export URL="https://api.telegram.org/bot$KEY/sendMessage"
+TEXT="
+<code>────────────────────</code>
+<b>⚠️NOTIF QUOTA HABIS VLESS⚠️</b>
+<code>────────────────────</code>
+<b>USERNAME          :</b> <code>$user</code>
+<b>LIMIT QOUTA       :</b> <code>${total1} GB</code>
+<b>TOTAL USAGE QOUTA :</b> <code>${total} GB</code>
+<code>────────────────────</code>
+"
+curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+}
+function send-trojan1(){
+CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
+KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+export TIME="10"
+export URL="https://api.telegram.org/bot$KEY/sendMessage"
+TEXT="
+<code>────────────────────</code>
+<b>⚠️NOTIF QUOTA HABIS TROJAN⚠️</b>
+<code>────────────────────</code>
+<b>USERNAME          :</b> <code>$user</code>
+<b>LIMIT QOUTA       :</b> <code>${total1} GB</code>
+<b>TOTAL USAGE QOUTA :</b> <code>${total} GB</code>
+<code>────────────────────</code>
+"
+curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+}
+
+function con() {
+    local -i bytes=$1;
+    if [[ $bytes -lt 1024 ]]; then
+        echo "${bytes}B"
+    elif [[ $bytes -lt 1048576 ]]; then
+        echo "$(( (bytes + 1023)/1024 ))KB"
+    elif [[ $bytes -lt 1073741824 ]]; then
+        echo "$(( (bytes + 1048575)/1048576 ))MB"
+    else
+        echo "$(( (bytes + 1073741823)/1073741824 ))GB"
+    fi
+}
+
+function cekvmess(){
+  data=($(cat /etc/xray/config.json | grep '^###' | cut -d ' ' -f 2 | sort | uniq))
+  data=($(cat /etc/xray/config.json | grep '^#vmg' | cut -d ' ' -f 2 | sort | uniq))
+  if [[ ! -e /etc/vmess ]]; then
+  mkdir -p /etc/vmess
+  fi
+  for user in ${data[@]}
+  do
+  mkdir -p /tmp/quota
+  data=$(xray api statsquery --server=127.0.0.1:10000 | grep -C 2 $user | sed /"}"/d | sed /"{"/d | grep value | awk '{print $2}' | sed 's/,//g; s/"//g' | sort)
+  inb=$(echo "$data" | sed -n 1p)
+  outb=$(echo "$data" | sed -n 2p)
+  quota0=$(echo -e "$[ $inb + $outb ]")
+        if [ -e /etc/vmess/Qouta/${user} ]; then
+        quota1=$(cat /etc/vmess/Qouta/${user});
+             if [[ ${#quota1} -gt 0 ]]; then
+                quota2=$(( ${quota0} + ${quota1} ));
+                echo "${quota2}" > /etc/vmess/"${user}"
+                xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+              else
+                  echo "${quota0}" > /etc/vmess/"${user}"
+                  xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+                fi
+           else
+               echo "${quota0}" > /etc/vmess/"${user}"
+               xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+            fi
+     done
+}
+function cekvless(){
+  data=($(cat /etc/xray/config.json | grep '^#&' | cut -d ' ' -f 2 | sort | uniq))
+  data=($(cat /etc/xray/config.json | grep '^#vlg' | cut -d ' ' -f 2 | sort | uniq))
+  if [[ ! -e /etc/vless ]]; then
+  mkdir -p /etc/vless
+  fi
+  for user in ${data[@]}
+  do
+  mkdir -p /tmp/quota
+  data=$(xray api statsquery --server=127.0.0.1:10000 | grep -C 2 $user | sed /"}"/d | sed /"{"/d | grep value | awk '{print $2}' | sed 's/,//g; s/"//g' | sort)
+  inb=$(echo "$data" | sed -n 1p)
+  outb=$(echo "$data" | sed -n 2p)
+  quota0=$(echo -e "$[ $inb + $outb ]")
+        if [ -e /etc/vless/Qouta/${user} ]; then
+        quota1=$(cat /etc/vless/Qouta/${user});
+             if [[ ${quota1} -gt 0 ]]; then
+                quota2=$(( ${quota0} + ${quota1} ));
+                echo "${quota2}" > /etc/vless/"${user}"
+                xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+              else
+                  echo "${quota0}" > /etc/vless/"${user}"
+                  xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+                fi
+           else
+               echo "${quota0}" > /etc/vless/"${user}"
+               xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+            fi
+     done
+}
+function cektrojan(){
+  data=($(cat /etc/xray/config.json | grep '^#!' | cut -d ' ' -f 2 | sort | uniq))
+  data=($(cat /etc/xray/config.json | grep '^#trg' | cut -d ' ' -f 2 | sort | uniq))
+  if [[ ! -e /etc/trojan ]]; then
+  mkdir -p /etc/trojan
+  fi
+  for user in ${data[@]}
+  do
+  mkdir -p /tmp/quota
+  data=$(xray api statsquery --server=127.0.0.1:10000 | grep -C 2 $user | sed /"}"/d | sed /"{"/d | grep value | awk '{print $2}' | sed 's/,//g; s/"//g' | sort)
+  inb=$(echo "$data" | sed -n 1p)
+  outb=$(echo "$data" | sed -n 2p)
+  quota0=$(echo -e "$[ $inb + $outb ]")
+        if [ -e /etctrojan/Qouta/${user} ]; then
+        quota1=$(cat /etc/trojan/Qouta/${user});
+             if [[ ${quota1} -gt 0 ]]; then
+                quota2=$(( ${quota0} + ${quota1} ));
+                echo "${quota2}" > /etc/trojan/"${user}"
+                xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+              else
+                  echo "${quota0}" > /etc/trojan/"${user}"
+                  xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+                fi
+           else
+               echo "${quota0}" > /etc/trojan/"${user}"
+               xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+            fi
+     done
+}
+function cekssh(){
+  data=($(cat /etc/ssh/.ssh.db | grep '^###' | cut -d ' ' -f 2 | sort | uniq))
+  if [[ ! -e /etc/ssh ]]; then
+  mkdir -p /etc/ssh
+  fi
+  for user in ${data[@]}
+  do
+  mkdir -p /tmp/quota
+  data=$(xray api statsquery --server=127.0.0.1:10015 | grep -C 2 $user | sed /"}"/d | sed /"{"/d | grep value | awk '{print $2}' | sed 's/,//g; s/"//g' | sort)
+data=$(xray api statsquery --server=127.0.0.1:10000 | grep -C 2 $user | sed /"}"/d | sed /"{"/d | grep value | awk '{print $2}' | sed 's/,//g; s/"//g' | sort)
+  inb=$(echo "$data" | sed -n 1p)
+  outb=$(echo "$data" | sed -n 2p)
+  quota0=$(echo -e "$[ $inb + $outb ]")
+        if [ -e /etc/ssh/Qouta/${user} ]; then
+        quota1=$(cat /etc/ssh/Qouta/${user});
+             if [[ ${quota1} -gt 0 ]]; then
+                quota2=$(( ${quota0} + ${quota1} ));
+                echo "${quota2}" > /etc/ssh/"${user}"
+                xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+                xray api stats --server=127.0.0.1:10015 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+              else
+                  echo "${quota0}" > /etc/ssh"${user}"
+                  xray api stats --server=127.0.0.1:10015 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+                fi
+           else
+               echo "${quota0}" > /etc/ssh/"${user}"
+               xray api stats --server=127.0.0.1:10000 -name "user>>>${user}>>>traffic>>>downlink" -reset > /dev/null 2>&1
+            fi
+     done
+}
+unction vmess(){
+while true; do
+sleep 30
+cekvmess
+data=($(cat /etc/xray/config.json | grep '^###' | cut -d ' ' -f 2 | sort | uniq))
+data=($(cat /etc/xray/config.json | grep '^#vmg' | cut -d ' ' -f 2 | sort | uniq))
+for user in ${data[@]}
+do
+   if [ -e /etc/vmess/Qouta/${user} ]; then
+     cekdulu=$(cat /etc/vmess/Qouta/${user});
+      if [[ ${#cekdulu} -gt 1 ]]; then
+          if [ -e /etc/vmess/${user} ]; then
+             pakai=$(cat /etc/vmess/${user});
+               if [[ ${pakai} -gt ${cekdulu} ]]; then
+                  exp=$(grep -w "^### $user" "/etc/xray/config.json" | cut -d ' ' -f 3 | sort | uniq)
+                  sed -i "/^### $user $exp/,/^},{/d" /etc/xray/config.json
+                  sed -i "/^#vmg $user $exp/,/^},{/d" /etc/xray/config.json
+                  sed -i "/^### $user $exp/d" /etc/vmess/.vmess.db
+                  systemctl restart xray >> /dev/null 2>&1
+                  bol=$(cat /etc/vmess/${user});
+                  total=$(con ${bol})
+		  total1=($(cat /etc/xray/config.json | grep '^### ${user}' | cut -d ' ' -f 6 | sort | uniq))
+                  send-log
+                  rm -rf /etc/vmess/Qouta/${user}
+                  rm -rf /etc/vmess/vmess/ip/${user}
+                  rm -rf /etc/vmess/${user}
+                  rm -rf /etc/log/vmess-${user}.log
+              else
+               echo ""
+          fi
+           else
+            echo ""
+        fi
+         else
+          echo ""
+      fi
+       else
+        echo ""
+    fi
+  done
+done
+}
+function vless(){
+while true; do
+sleep 30
+cekvless
+data=($(cat /etc/xray/config.json | grep '^#&' | cut -d ' ' -f 2 | sort | uniq))
+data=($(cat /etc/xray/config.json | grep '^#vlg' | cut -d ' ' -f 2 | sort | uniq))
+for user in ${data[@]}
+do
+   if [ -e /etc/vless/Qouta/${user} ]; then
+     cekdulu=$(cat /etc/vless/Qouta/${user});
+      if [[ ${#cekdulu} -gt 1 ]]; then
+          if [ -e /etc/vless/${user} ]; then
+             pakai=$(cat /etc/vless/${user});
+               if [[ ${pakai} -gt ${cekdulu} ]]; then
+                  exp=$(grep -w "^#& $user" "/etc/xray/config.json" | cut -d ' ' -f 3 | sort | uniq)
+                  sed -i "/^#& $user $exp/,/^},{/d" /etc/xray/config.json
+                  sed -i "/^#vlg $user $exp/,/^},{/d" /etc/xray/config.json
+                  sed -i "/^### $user $exp/d" /etc/vless/.vless.db
+                  systemctl restart xray >> /dev/null 2>&1
+                  bol=$(cat /etc/vless/${user});
+                  total=$(con ${bol})
+		  total1=($(cat /etc/xray/config.json | grep '^#& ${user}' | cut -d ' ' -f 6 | sort | uniq))
+                  send-log
+                  rm -rf /etc/vless/Qouta/${user}
+                  rm -rf /etc/vless/ip/${user}
+                  rm -rf /etc/vless/${user}
+                  rm -rf /etc/log/vless-${user}.log
+              else
+               echo ""
+          fi
+           else
+            echo ""
+        fi
+         else
+          echo ""
+      fi
+       else
+        echo ""
+    fi
+  done
+done
+}
+function trojan(){
+while true; do
+sleep 30
+cektrojan
+data=($(cat /etc/xray/config.json | grep '^#!' | cut -d ' ' -f 2 | sort | uniq))
+data=($(cat /etc/xray/config.json | grep '^#trg' | cut -d ' ' -f 2 | sort | uniq))
+for user in ${data[@]}
+do
+   if [ -e /etc/trojan/Qouta/${user} ]; then
+     cekdulu=$(cat /etc/trojan/Qouta/${user});
+      if [[ ${#cekdulu} -gt 1 ]]; then
+          if [ -e /etc/trojan/${user} ]; then
+             pakai=$(cat /etc/trojan/${user});
+               if [[ ${pakai} -gt ${cekdulu} ]]; then
+                  exp=$(grep -w "^#! $user" "/etc/xray/config.json" | cut -d ' ' -f 3 | sort | uniq)
+                  sed -i "/^#! $user $exp/,/^},{/d" /etc/xray/config.json
+                  sed -i "/^#trg $user $exp/,/^},{/d" /etc/xray/config.json
+                  sed -i "/^### $user $exp/d" /etc/trojan/.trojan.db
+                  systemctl restart xray >> /dev/null 2>&1
+                  bol=$(cat /etc/trojan/${user});
+                  total=$(con ${bol})
+		  total1=($(cat /etc/xray/config.json | grep '^#! ${user}' | cut -d ' ' -f 6 | sort | uniq))
+                  send-log
+                  rm -rf /etc/trojan/Qouta/${user}
+                  rm -rf /etc/trojan/ip/${user}
+                  rm -rf /etc/trojan/${user}
+                  rm -rf /etc/log/trojan-${user}.log
+              else
+               echo ""
+          fi
+           else
+            echo ""
+        fi
+         else
+          echo ""
+      fi
+       else
+        echo ""
+    fi
+  done
+done
+}
+unction ssh(){
+while true; do
+sleep 30
+cekssh
+data=($(cat /etc/ssh/.ssh,db | grep '^###' | cut -d ' ' -f 2 | sort | uniq))
+for user in ${data[@]}
+do
+   if [ -e /etc/ssh/Qouta/${user} ]; then
+     cekdulu=$(cat /etc/ssh/Qouta/${user});
+      if [[ ${#cekdulu} -gt 1 ]]; then
+          if [ -e /etc/ssh/${user} ]; then
+             pakai=$(cat /etc/ssh/${user});
+               if [[ ${pakai} -gt ${cekdulu} ]]; then
+                  exp=$(grep -w "^### $user" "/etc/ssh/.ssh.db" | cut -d ' ' -f 3 | sort | uniq)
+                  sed -i "/^### $user $exp/d" /etc/ssh/.ssh.db
+                  systemctl restart xray >> /dev/null 2>&1
+                  bol=$(cat /etc/ssh/${user});
+                  total=$(con ${bol})
+                  total1=$(grep -w "^### $user" "/etc/ssh/.ssh.db" | cut -d ' ' -f 6 | sort | uniq)
+                  send-log
+                  rm -rf /etc/ssh/Qouta/${user}
+                  rm -rf /etc/ssh/ip/${user}
+                  rm -rf /etc/ssh/${user}
+                  rm -rf /etc/log/ssh-${user}.log
+              else
+               echo ""
+          fi
+           else
+            echo ""
+        fi
+         else
+          echo ""
+      fi
+       else
+        echo ""
+    fi
+  done
+done
+}
+if [[ ${1} == "vmess" ]]; then
+vmess
+elif [[ ${1} == "vless" ]]; then
+vless
+elif [[ ${1} == "trojan" ]]; then
+trojan
+elif [[ ${1} == "ssh" ]]; then
+ssh
+fi

@@ -1,0 +1,245 @@
+#!/bin/bash
+function send_logssh(){
+CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
+KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+export TIME="10"
+export URL="https://api.telegram.org/bot$KEY/sendMessage"
+TEXT="
+<code>◇━━━━━━━━━━━━━━◇</code>
+<b>⚠️NOTIF LIMIT IP SSH⚠️</b>
+<b>⚠️USER MULTI LOGIN⚠️</b>
+<code>◇━━━━━━━━━━━━━━◇</code>
+<b>USERNAME       :</b> <code>${username[$i]}</code>
+<b>LIMIT IP       :</b> <code>${slip} Login</code>
+<b>TOTAL IP LOGIN :</b> <code>${jumlah[$i]} Login</code>
+<code>◇━━━━━━━━━━━━━━◇</code>
+<code>I REMOVE ACCOUNT</code>
+<code>NO MULTI LOGINS!</code>
+"
+curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+}
+function send_vmess(){
+CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
+KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+export TIME="10"
+export URL="https://api.telegram.org/bot$KEY/sendMessage"
+TEXT="
+<code>────────────────────</code>
+<b>⚠️NOTIF LIMIT IP VMESS⚠️</b>
+<b>⚠️USER MULTI LOGIN⚠️</b>
+<code>────────────────────</code>
+<b>USERNAME        : </code><code>$user</code>
+<b>LIMIT IP        : </code><code>$iplimit Login</code>
+< b>TOTAL IP LOGIN :</b> <code>${jum2} Login</code>
+<code>────────────────────</code>
+<code>I REMOVE ACCOUNT</code>
+<code>NO MULTI LOGINS!</code>
+"
+curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+}
+function send_vless(){
+CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
+KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+export TIME="10"
+export URL="https://api.telegram.org/bot$KEY/sendMessage"
+TEXT="
+<code>────────────────────</code>
+<b>⚠️NOTIF LIMIT IP VLESS⚠️</b>
+<b>⚠️USER MULTI LOGIN⚠️</b>
+<code>────────────────────</code>
+<b>USERNAME        : </code><code>$user</code>
+<b>LIMIT IP        : </code><code>$iplimit Login</code>
+< b>TOTAL IP LOGIN :</b> <code>${jum2} Login</code>
+<code>────────────────────</code>
+<code>I REMOVE ACCOUNT</code>
+<code>NO MULTI LOGINS!</code>
+"
+curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+}
+function send_trojan(){
+CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
+KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+export TIME="10"
+export URL="https://api.telegram.org/bot$KEY/sendMessage"
+TEXT="
+<code>────────────────────</code>
+<b>⚠️NOTIF LIMIT IP TROJAN⚠️</b>
+<b>⚠️USER MULTI LOGIN⚠️</b>
+<code>────────────────────</code>
+<b>USERNAME        : </code><code>$user</code>
+<b>LIMIT IP        : </code><code>$iplimit Login</code>
+< b>TOTAL IP LOGIN :</b> <code>${jum2} Login</code>
+<code>────────────────────</code>
+<code>I REMOVE ACCOUNT</code>
+<code>NO MULTI LOGINS!</code>
+"
+curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+}
+function vmip(){
+#LIMITVMESSIP
+echo -n > /var/log/xray/access.log
+sleep 4
+data=( `ls /etc/vmess/ip`);
+#Decrypted By SANAK STORE
+    for user in "${data[@]}"
+    do
+        iplimit=$(cat /etc/vmess/ip/$user)
+        ehh=$(cat /var/log/xray/access.log | grep "$user" | cut -d " " -f 3 | sed 's/tcp://g' | cut -d ":" -f 1 | sort | uniq);
+        cekcek=$(echo -e "$ehh" | wc -l);
+        if [[ $cekcek -gt $iplimit ]]; then
+            exp=$(grep -w "^### $user" "/etc/xray/config.json" | cut -d ' ' -f 3 | sort | uniq)
+                  sed -i "/^### $user $exp/,/^},{/d" /etc/xray/config.json
+                  sed -i "/^#vmg $user $exp/,/^},{/d" /etc/xray/config.json
+                  sed -i "/^### $user $exp/d" /etc/vmess/.vmess.db
+                  systemctl restart xray >> /dev/null 2>&1
+                  jum2=$(cat /tmp/ipvmess.txt | wc -l)
+                  rm -rf /etc/vmess/Qouta/${user}
+                  rm -rf /etc/vmess/${user}
+                  rm -rf /etc/vmess/ip/${user}
+                  rm -rf /etc/log/vmess-${user}.log
+                  send_vmess
+                else
+            echo ""
+        fi
+        sleep 0.1
+    done
+}
+function vlip(){
+#LIMITVLESSIP
+echo -n > /var/log/xray/access.log
+sleep 4
+data=( `ls /etc/vless/ip`);
+#Decrypted By SANAK STORE
+    for user in "${data[@]}"
+    do
+        iplimit=$(cat /etc/vless/ip/$user)
+        ehh=$(cat /var/log/xray/access.log | grep "$user" | cut -d " " -f 3 | sed 's/tcp://g' | cut -d ":" -f 1 | sort | uniq);
+        cekcek=$(echo -e "$ehh" | wc -l);
+        if [[ $cekcek -gt $iplimit ]]; then
+            exp=$(grep -w "^#& $user" "/etc/xray/config.json" | cut -d ' ' -f 3 | sort | uniq)
+                  sed -i "/^#& $user $exp/,/^},{/d" /etc/xray/config.json
+                  sed -i "/^#vlg $user $exp/,/^},{/d" /etc/xray/config.json
+                  sed -i "/^### $user $exp/d" /etc/vless/.vless.db
+                  systemctl restart xray >> /dev/null 2>&1
+                  jum2=$(cat /tmp/ipvless.txt | wc -l)
+                  rm -rf /etc/vless/Qouta/${user}
+                  rm -rf /etc/vless/${user}
+                  rm -rf /etc/vless/ip/${user}
+                  rm -rf /etc/log/vless-${user}.log
+                  send_vless
+                else
+            echo ""
+        fi
+        sleep 0.1
+    done
+}
+function trip(){
+#LIMITIPTROJAN
+echo -n > /var/log/xray/access.log
+sleep 4
+data=( `ls /etc//trojan/ip`);
+#Decrypted By SANAK STORE
+    for user in "${data[@]}"
+    do
+        iplimit=$(cat /etc/trojan/ip/$user)
+        ehh=$(cat /var/log/xray/access.log | grep "$user" | cut -d " " -f 3 | sed 's/tcp://g' | cut -d ":" -f 1 | sort | uniq);
+        cekcek=$(echo -e "$ehh" | wc -l);
+        if [[ $cekcek -gt $iplimit ]]; then
+            exp=$(grep -w "^#! $user" "/etc/xray/config.json" | cut -d ' ' -f 3 | sort | uniq)
+                  sed -i "/^#! $user $exp/,/^},{/d" /etc/xray/config.json
+                  sed -i "/^#trg $user $exp/,/^},{/d" /etc/xray/config.json
+                  sed -i "/^### $user $exp/d" /etc/trojan/.trojan.db
+                  systemctl restart xray >> /dev/null 2>&1
+                  jum2=$(cat /tmp/iptrojan.txt | wc -l)
+                  rm -rf /etc/trojan/Qouta/${user}
+                  rm -rf /etc/trojan/${user}
+                  rm -rf /etc/trojan/ip/${user}
+                  rm -rf /etc/log/trojan-${user}.log
+                  send_trojan
+                else
+            echo ""
+        fi
+        sleep 0.1
+    done
+}
+function sship() {
+cat /etc/passwd | grep "/home/" | cut -d":" -f1 >/root/user.txt
+username1=($(cat "/root/user.txt"))
+i="0"
+if [ -e "/var/log/auth.log" ]; then
+    OS=1
+    LOG="/var/log/auth.log"
+fi
+if [ -e "/var/log/secure" ]; then
+    OS=2
+    LOG="/var/log/secure"
+fi
+for user in "${username1[@]}"; do
+    username[$i]=$(echo $user | sed 's/'\''//g')
+    jumlah[$i]=0
+    i=$i+1
+done
+cat $LOG | grep -i dropbear | grep -i "Password auth succeeded" >/tmp/log-db.txt
+proc=($(ps aux | grep -i dropbear | awk '{print $2}'))
+for PID in "${proc[@]}"; do
+    cat /tmp/log-db.txt | grep "dropbear\[$PID\]" >/tmp/log-db-pid.txt
+    NUM=$(cat /tmp/log-db-pid.txt | wc -l)
+    USER=$(cat /tmp/log-db-pid.txt | awk '{print $10}' | sed 's/'\''//g')
+    IP=$(cat /tmp/log-db-pid.txt | awk '{print $12}')
+    if [ $NUM -eq 1 ]; then
+        i=0
+        for user1 in "${username[@]}"; do
+            if [ "$USER" == "$user1" ]; then
+                jumlah[$i]=$(expr ${jumlah[$i]} + 1)
+                pid[$i]="${pid[$i]} $PID"
+            fi
+            i=$i+1
+        done
+    fi
+done
+cat $LOG | grep -i sshd | grep -i "Accepted password for" >/tmp/log-db.txt
+data=($(ps aux | grep "\[priv\]" | sort -k 72 | awk '{print $2}'))
+for PID in "${data[@]}"; do
+    cat /tmp/log-db.txt | grep "sshd\[$PID\]" >/tmp/log-db-pid.txt
+    NUM=$(cat /tmp/log-db-pid.txt | wc -l)
+    USER=$(cat /tmp/log-db-pid.txt | awk '{print $9}')
+    IP=$(cat /tmp/log-db-pid.txt | awk '{print $11}')
+    if [ $NUM -eq 1 ]; then
+        i=0
+        for user1 in "${username[@]}"; do
+            if [ "$USER" == "$user1" ]; then
+                jumlah[$i]=$(expr ${jumlah[$i]} + 1)
+                pid[$i]="${pid[$i]} $PID"
+            fi
+            i=$i+1
+        done
+    fi
+done
+for i in ${!username[*]}; do
+    slip=$(cat /etc/ssh/ip/${username[$i]})
+    if [ ${jumlah[$i]} -gt $slip ]; then
+        date=$(date +"%Y-%m-%d")
+        echo "$date - ${username[$i]} - ${jumlah[$i]}"
+        echo "$date - ${username[$i]} - ${jumlah[$i]}" >>/root/log-limit.txt
+        userdel -f ${username[$i]}
+        sed -i "/^### ${username[$i]}/d" /etc/ssh/.ssh.db
+        rm -rf /etc/ssh/Qouta/${username[$i]}
+        rm -rf /etc/ssh/ip/${username[$i]}
+        rm -rf /etc/ssh/${username[$i]}
+        rm -rf /etc/log/ssh-${username[$i]}.log
+        send_logssh
+      else
+  echo ""
+fi
+sleep 0.1
+done
+}
+if [[ ${1} == "vmip" ]]; then
+vmip
+elif [[ ${1} == "vlip" ]]; then
+vlip
+elif [[ ${1} == "trip" ]]; then
+trip
+elif [[ ${1} == "sship" ]]; then
+sship
+fi
