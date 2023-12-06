@@ -48,7 +48,7 @@ useexp=$(grep -w "^### $user" "/etc/trial" | cut -d ' ' -f 3 | sort | uniq)
     exit
   fi
 }
-checking_sc() {
+premium() {
 ipsaya=$(wget -qO- ipinfo.io/ip)
 data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
 date_list=$(date +"%Y-%m-%d" -d "$data_server")
