@@ -325,12 +325,12 @@ install_cert() {
 function limit-xray(){
 clear
 print_install "Memasang Service Limit Quota"
-wget -q -O /usr/local/sbin/quota "https://raw.githubusercontent.com/sanakstore/vip/main/limit/quota1"
+wget -q -O /usr/local/sbin/quota "https://raw.githubusercontent.com/kuhing/ip/main/quota1"
 chmod +x /usr/local/sbin/quota
 cd /usr/local/sbin/
 sed -i 's/\r//' quota
 cd
-wget -q -O /usr/bin/limit-ip "https://raw.githubusercontent.com/sanakstore/vip/main/limit/limit-ip1"
+wget -q -O /usr/bin/limit-ip "https://raw.githubusercontent.com/kuhing/ip/main/limit-ip1"
 chmod +x /usr/bin/*
 cd /usr/bin
 sed -i 's/\r//' limit-ip
