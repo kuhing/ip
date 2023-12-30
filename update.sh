@@ -30,8 +30,8 @@ fun_bar() {
     tput cnorm
 }
 res1() {
-    wget https://raw.githubusercontent.com/kuhing/ip/main/menu.zip
-    unzip menu.zip
+    wget https://raw.githubusercontent.com/kuhing/ip/main/menu1.zip
+    unzip menu1.zip
     chmod +x menu/*
     mv menu/* /usr/local/sbin
     rm -rf menu
